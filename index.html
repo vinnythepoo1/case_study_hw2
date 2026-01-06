@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corecell Technology: Strategic Analysis</title>
+    <!-- Import Retro Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mario-red: #E52521;
+            --mario-blue: #049CD8;
+            --mario-sky: #6185f8;
+            --mario-ground: #925310;
+            --coin-gold: #FBD000;
+            --brick-color: #B84D0E;
+            --pipe-green: #00AA00;
+            --text-color: #222;
+            --white: #ffffff;
+            --swot-s: #90EE90;
+            --swot-w: #FFB6C1;
+            --swot-o: #ADD8E6;
+            --swot-t: #FFD700;
+        }
+
+        body {
+            background-color: var(--mario-sky);
+            font-family: 'VT323', monospace;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-size: 24px; /* Larger base size for pixel font readability */
+            line-height: 1.6;
+        }
+
+        /* Animated Clouds Background */
+        .clouds {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: transparent;
+        }
+        
+        .cloud {
+            width: 100px; height: 40px;
+            background: rgba(255,255,255,0.8);
+            position: absolute;
+            border-radius: 20px;
+            animation: moveCloud linear infinite;
+        }
+        .cloud::after, .cloud::before {
+            content: ''; position: absolute; background: inherit; border-radius: 50%;
+        }
+        .cloud::after { width: 40px; height: 40px; top: -20px; left: 15px; }
+        .cloud::before { width: 50px; height: 50px; top: -25px; left: 35px; }
+
+        @keyframes moveCloud {
+            from { left: -150px; }
+            to { left: 100%; }
+        }
+
+        /* HUD Bar - Repurposed for Business Metrics */
+        .hud {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #000;
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            z-index: 1000;
+            border-bottom: 4px solid #fff;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.5);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 100px auto 50px;
+            background: var(--white);
+            padding: 50px;
+            border: 4px solid #000;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* 8-Bit Typography */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--mario-red);
+            text-shadow: 3px 3px 0px #000;
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            background: #000;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 16px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            border-left: 10px solid var(--mario-red);
+            position: relative;
+        }
+
+        h3 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--mario-blue);
+            font-size: 14px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Decor: Bricks and Blocks - Kept as visual dividers */
+        .brick-divider {
+            height: 30px;
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.1) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.1) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.1) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.1) 23px, transparent 23px);
+            background-color: var(--brick-color);
+            background-size: 58px 58px;
+            border: 2px solid #000;
+            margin: 40px 0;
+        }
+
+        /* Insight Box (Formerly Q-Block) */
+        .insight-box {
+            background: var(--coin-gold);
+            padding: 30px;
+            border: 4px solid #000;
+            position: relative;
+            margin: 40px 0;
+            box-shadow: inset -5px -5px 0px rgba(0,0,0,0.2), inset 5px 5px 0px rgba(255,255,255,0.5);
+            color: #000;
+        }
+
+        .insight-box::before {
+            content: "!";
+            position: absolute;
+            top: -25px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--brick-color);
+            color: white;
+            font-family: 'Press Start 2P';
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #000;
+        }
+
+        /* Critical Risk Box (Formerly Boss Box) */
+        .risk-box {
+            background: #222;
+            color: #fff;
+            border: 6px solid var(--mario-red);
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .risk-box::before {
+            content: "CRITICAL RISK ANALYSIS";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--mario-red);
+            padding: 5px 20px;
+            font-family: 'Press Start 2P';
+            font-size: 10px;
+            border: 2px solid #fff;
+        }
+
+        /* Recommendation Box (Green Pipe Style) */
+        .recommendation-box {
+            background: #f0fff0;
+            border: 6px solid var(--pipe-green);
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+            color: #000;
+        }
+
+        .recommendation-box::before {
+            content: "STRATEGIC GUIDE: NEXT STEPS";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--pipe-green);
+            color: white;
+            padding: 5px 20px;
+            font-family: 'Press Start 2P';
+            font-size: 10px;
+            border: 2px solid #000;
+        }
+        
+        .rec-item {
+            margin-bottom: 20px;
+            border-bottom: 2px dashed var(--pipe-green);
+            padding-bottom: 20px;
+        }
+        .rec-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .rec-title {
+            color: var(--pipe-green);
+            font-family: 'Press Start 2P';
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        /* 4P Grid Styles */
+        .marketing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .marketing-card {
+            background: #fff;
+            border: 4px solid #000;
+            padding: 20px;
+            position: relative;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+        }
+
+        .marketing-header {
+            background: var(--mario-blue);
+            color: white;
+            font-family: 'Press Start 2P';
+            font-size: 12px;
+            padding: 10px;
+            margin: -20px -20px 15px -20px;
+            border-bottom: 4px solid #000;
+            text-transform: uppercase;
+        }
+
+        /* SWOT Grid Styles */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .swot-box {
+            border: 4px solid #000;
+            padding: 20px;
+            position: relative;
+        }
+
+        .swot-s { background-color: var(--swot-s); }
+        .swot-w { background-color: var(--swot-w); }
+        .swot-o { background-color: var(--swot-o); }
+        .swot-t { background-color: var(--swot-t); }
+
+        .swot-title {
+            font-family: 'Press Start 2P';
+            font-size: 12px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .swot-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .swot-list li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .swot-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            font-family: 'Press Start 2P';
+            font-size: 10px;
+            top: 6px;
+        }
+
+        /* List Styling */
+        .pixel-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pixel-list li {
+            padding-left: 40px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .pixel-list li::before {
+            content: "";
+            width: 15px;
+            height: 15px;
+            background: var(--mario-blue);
+            border: 2px solid #000;
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        /* Methodology - Pipe Flow Style */
+        .method-flow {
+            background: #e0f8ff;
+            border: 4px solid #000;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .method-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #0099cc;
+            padding-bottom: 10px;
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--pipe-green);
+            border: 3px solid #000;
+            margin-right: 20px;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Press Start 2P';
+            font-size: 12px;
+        }
+
+        .key-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-card {
+            background: #eee;
+            border: 4px solid #000;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-val {
+            font-family: 'Press Start 2P';
+            color: var(--mario-blue);
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .footer {
+            text-align: center;
+            font-family: 'Press Start 2P';
+            font-size: 10px;
+            margin-top: 50px;
+            color: #555;
+            border-top: 4px solid #000;
+            padding-top: 20px;
+        }
+
+        /* Hero Image Frame */
+        .hero-frame {
+            border: 6px solid #000;
+            padding: 5px;
+            background: #111;
+            margin-bottom: 30px;
+        }
+        .hero-frame img {
+            width: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
+        
+        /* Highlight specific technical terms */
+        .tech-term {
+            background-color: #eee;
+            border: 1px solid #aaa;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #d32f2f;
+        }
+        
+        /* Pivot Section Style */
+        .pivot-section {
+            border: 4px dashed var(--mario-red);
+            padding: 20px;
+            margin: 30px 0;
+            background: #fff5f5;
+        }
+
+        .pivot-title {
+            font-family: 'Press Start 2P';
+            color: var(--mario-red);
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .key-stats, .marketing-grid, .swot-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 20px; }
+            .container { padding: 20px; margin-top: 80px; }
+            .hud { font-size: 8px; flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HUD: Business Metrics -->
+    <div class="hud">
+        <span>EST: 2002</span>
+        <span>HQ: BANGKOK</span>
+        <span>SECTOR: TECH</span>
+        <span>STATUS: ACTIVE</span>
+    </div>
+
+    <!-- Animated Clouds -->
+    <div class="clouds">
+        <div class="cloud" style="top: 10%; animation-duration: 25s;"></div>
+        <div class="cloud" style="top: 30%; animation-duration: 35s; opacity: 0.7;"></div>
+        <div class="cloud" style="top: 60%; animation-duration: 20s; opacity: 0.5;"></div>
+    </div>
+
+    <div class="container">
+        <h1>Strategic Resilience in the Digital Economy:<br>A Case Study of Corecell Technology</h1>
+        
+        <div class="hero-frame">
+             <!-- Real Image from Steam -->
+             <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1249070/header.jpg" alt="AeternoBlade II Key Art">
+        </div>
+
+        <p>
+            <strong>Abstract:</strong> The interactive entertainment industry is characterized by extreme volatility, rapid technological obsolescence, and fierce global competition. Corecell Technology, established in Bangkok in 2002, serves as a significant case study of organizational adaptation. As one of the few Southeast Asian studios holding full development licenses for Nintendo, Sony, and Microsoft, the company has successfully navigated the transition from feature phones to high-definition consoles through strategic pivots and revenue diversification.
+        </p>
+
+        <div class="brick-divider"></div>
+
+        <!-- Explicit Pivot Section -->
+        <h2>I. The Two Major Strategic Pivots</h2>
+        <p>
+            Corecell's survival for over 20 years is not due to luck. It is because they successfully executed two massive changes (Pivots) when the market collapsed around them.
+        </p>
+
+        <div class="pivot-section">
+            <span class="pivot-title">Pivot #1: Mobile to Console (2010)</span>
+            <p>
+                <strong>The Trigger:</strong> The "Smart Phone Revolution" (iPhone/Android) killed the market for old J2ME mobile games.
+            </p>
+            <p>
+                <strong>The Action:</strong> Instead of fighting in the crowded cheap mobile market, Corecell moved UP to high-quality console games. They built their own engine and got licensed by Nintendo and Sony—something very few Thai studios could do.
+            </p>
+        </div>
+
+        <div class="pivot-section">
+            <span class="pivot-title">Pivot #2: The "Hybrid" Model (2019)</span>
+            <p>
+                <strong>The Trigger:</strong> Game development is risky. You spend money for 3 years and might earn nothing if the launch fails.
+            </p>
+            <p>
+                <strong>The Action:</strong> They became a "Hybrid." They kept making games, but also started a "Connected Commerce" division. Now, they build banking apps and AI software for other companies to pay the bills.
+            </p>
+        </div>
+
+        <h2>II. Crisis Management & The Design Thinking Framework</h2>
+        <p>
+            The launch of <em>AeternoBlade II</em> was rocky. Mid-development, they switched to <span class="tech-term">Unreal Engine 4</span>, which caused technical debt and bugs. Here is how they fixed it using Design Thinking:
+        </p>
+
+        <div class="method-flow">
+            <strong>The "Infinity" Remediation Protocol:</strong>
+            <div class="method-step">
+                <div class="method-icon">1</div>
+                <div><strong>Empathize:</strong> The team actively monitored negative feedback regarding camera mechanics and technical instability.</div>
+            </div>
+            <div class="method-step">
+                <div class="method-icon">2</div>
+                <div><strong>Define:</strong> The core issue was identified as "Technical Debt" resulting from the engine migration, not fundamental design flaws.</div>
+            </div>
+            <div class="method-step">
+                <div class="method-icon">3</div>
+                <div><strong>Implement:</strong> The "Infinity Update" (introducing 4K support and rewritten AI) successfully improved user sentiment.</div>
+            </div>
+        </div>
+
+        <h2>III. Critical Risk Analysis: International Publishing Disputes</h2>
+        <div class="risk-box">
+            <p><strong>Case Study: Corecell vs. PQube (UK)</strong></p>
+            <p>
+                This dispute highlights the systemic risks of "Asymmetric Warfare" in international licensing. Corecell alleged that the publisher withheld Minimum Guarantee payments by exploiting a <strong>"Quality Clause"</strong>—arguing that bugs rendered the game "commercially unviable" while simultaneously continuing to monetize the asset.
+            </p>
+            <p>
+                <strong>Legal Implications:</strong> Due to resource constraints, Corecell could not litigate in the UK. This underscores the necessity for emerging market entities to mandate arbitration clauses in accessible jurisdictions (e.g., Singapore or Hong Kong).
+            </p>
+        </div>
+
+        <h2>IV. Financial Diversification</h2>
+        <p>
+            Making a video game is expensive and risky. You have to pay salaries for years before the game is released and starts earning money. To survive this "gap" without running out of cash, Corecell changed their strategy.
+        </p>
+        <p>
+            They created a new division called "Connected Commerce." Basically, they use their programming skills to do work-for-hire jobs for other companies, like building banking apps or AI tools.
+        </p>
+        <div class="key-stats">
+            <div class="stat-card">
+                <span class="stat-val">Core Competencies</span>
+                C++, C#, Java, Go, PHP
+            </div>
+            <div class="stat-card">
+                <span class="stat-val">Service Portfolio</span>
+                AI Transformation, Banking Applications
+            </div>
+        </div>
+        <p>
+            <strong>Why this is smart:</strong> The work-for-hire jobs provide steady, monthly income. This "safe money" pays the bills and salaries, allowing the team to work on their own "risky" games (like AeternoBlade) without going bankrupt.
+        </p>
+
+        <h2>V. The 4P Marketing Mix</h2>
+        <p>
+            An analysis of Corecell's market strategy using the standard 4P framework.
+        </p>
+        <div class="marketing-grid">
+            <div class="marketing-card">
+                <div class="marketing-header">📦 Product</div>
+                <p><strong>"AA" Positioning:</strong> Corecell targets the gap between Indie and AAA games. Their key product, <em>AeternoBlade</em>, offers high-fidelity visuals but suffered from feature creep (too many features, not enough time/budget).</p>
+            </div>
+            <div class="marketing-card">
+                <div class="marketing-header">💰 Price</div>
+                <p><strong>Elastic Pricing:</strong> Games launch at a premium point (~$29.99) but rely heavily on deep discounts (50-80% off) later in the lifecycle to attract price-sensitive gamers.</p>
+            </div>
+            <div class="marketing-card">
+                <div class="marketing-header">🌍 Place</div>
+                <p><strong>Digital Battlegrounds:</strong> Distribution is global via Steam, Nintendo eShop, and PSN. The battle here was legal—fighting to delist publisher-controlled pages to regain revenue.</p>
+            </div>
+            <div class="marketing-card">
+                <div class="marketing-header">📢 Promotion</div>
+                <p><strong>Transparency:</strong> Lacking a huge ad budget, they used radical transparency. Their "Open Letters" about the legal fight with PQube won them community support and free PR.</p>
+            </div>
+        </div>
+
+        <h2>VI. SWOT Analysis</h2>
+        <p>
+            A summary of Corecell's position using simple, clear terms.
+        </p>
+        <div class="swot-grid">
+            <div class="swot-box swot-s">
+                <span class="swot-title">Strengths (Internal)</span>
+                <ul class="swot-list">
+                    <li>20+ Years of Survival Experience</li>
+                    <li>Full Console Licenses (Nintendo, Sony, MS)</li>
+                    <li>Diversified Income (Games + B2B Services)</li>
+                    <li>Owns Original IP (AeternoBlade)</li>
+                </ul>
+            </div>
+            <div class="swot-box swot-w">
+                <span class="swot-title">Weaknesses (Internal)</span>
+                <ul class="swot-list">
+                    <li>Limited Cash Reserves</li>
+                    <li>Quality Control Issues at Launch</li>
+                    <li>Trying to do too much (Scope Creep)</li>
+                    <li>Loss of key talent (Brain Drain)</li>
+                </ul>
+            </div>
+            <div class="swot-box swot-o">
+                <span class="swot-title">Opportunities (External)</span>
+                <ul class="swot-list">
+                    <li>Government Grants (depa)</li>
+                    <li>Using AI to make games faster</li>
+                    <li>Growing demand for Banking Apps</li>
+                    <li>New markets (like Steam Deck)</li>
+                </ul>
+            </div>
+            <div class="swot-box swot-t">
+                <span class="swot-title">Threats (External)</span>
+                <ul class="swot-list">
+                    <li>Predatory Publishers (e.g., PQube)</li>
+                    <li>Rapidly changing technology</li>
+                    <li>Intense Global Competition</li>
+                    <li>Unfair Legal Environments</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>VII. Future Roadmap (2025-2026)</h2>
+        <p>
+            Based on the analysis, here is the projected path for Corecell to recover and grow.
+        </p>
+
+        <div class="method-flow">
+            <strong>Strategic Timeline:</strong>
+            <div class="method-step">
+                <div class="method-icon">2025</div>
+                <div>
+                    <strong>Phase 1: Stabilization & Cash Building</strong><br>
+                    Focus on "safe" money. Aggressively bid for AI Transformation contracts in the Thai banking sector to rebuild cash reserves. Utilize government grants (depa) to train staff.
+                </div>
+            </div>
+            <div class="method-step">
+                <div class="method-icon">2026</div>
+                <div>
+                    <strong>Phase 2: The Return to IP</strong><br>
+                    Once financially stable, return to making original games. Use new AI tools (Unity 6 / Unreal 5) to generate art assets faster, allowing a small team to produce high-quality content without huge costs.
+                </div>
+            </div>
+        </div>
+
+        <h2>VIII. Strategic Suggestions</h2>
+        <p>Based on the analysis, I propose the following strategic adjustments:</p>
+        
+        <div class="recommendation-box">
+            <div class="rec-item">
+                <span class="rec-title">1. Use Service Work to Fund Games</span>
+                <p>The studio should prioritize their "Connected Commerce" work (like banking apps) to make steady money. This reliable income is safer than game sales and can be used to pay for developing new games. If they have their own money, they don't need to rely on risky publisher deals to survive.</p>
+            </div>
+            <div class="rec-item">
+                <span class="rec-title">2. Stick to 2.5D Games</span>
+                <p>Corecell should stop trying to make full 3D games. The 3D parts in AeternoBlade II caused many bugs and camera issues. They should go back to making high-quality 2.5D games (side-scrollers), which their team is already good at making. This avoids the technical problems that hurt their reviews.</p>
+            </div>
+            <div class="rec-item">
+                <span class="rec-title">3. Use Early Access</span>
+                <p>Instead of a surprise launch, they should release new games in "Early Access" first. This allows real players to test the game and find bugs before the final release. This helps the team fix issues early and avoids bad reviews at the start.</p>
+            </div>
+        </div>
+
+        <h2>IX. References</h2>
+        <div class="risk-box" style="border-color: #000; background: #fff; color: #222;">
+            <p><strong>Sources Used in Analysis:</strong></p>
+            <ul class="pixel-list" style="font-size: 16px;">
+                <li><strong>Corecell Technology Co., Ltd.</strong> (2026). "Official Website: Company History & Licensing Credentials."</li>
+                <li><strong>ACN Newswire / depa.</strong> (2025). "depa Announces Record-Breaking Success of gamescom asia x Thailand Game Show 2025."</li>
+                <li><strong>GamesIndustry.biz.</strong> (2022). "Corecell team accuses PQube of failing to fulfill publisher payments."</li>
+                <li><strong>Nintendo Everything.</strong> (2022). "Corecell accuses PQube of not making all payments and keeping publishing rights."</li>
+                <li><strong>Thailand4 / depa.</strong> (2026). "depa Transforms Thailand's Workforce Development & Digital Skill Roadmap."</li>
+                <li><strong>SteamDB.</strong> (2021). "AeternoBlade II: Infinity Patches and Updates History."</li>
+                <li><strong>Metacritic.</strong> (2019). "AeternoBlade II Official Review Data & Scores."</li>
+            </ul>
+        </div>
+
+        <div class="brick-divider"></div>
+
+        <div class="footer">
+            Prepared for: Strategic Business Analysis Course<br>
+            Student: Vitcha Gnimsuntear 66070349<br>
+            Date: January 2026
+        </div>
+    </div>
+
+</body>
+</html>
